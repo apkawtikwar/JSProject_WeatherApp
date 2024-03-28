@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Weather App</title>
+	<style type="text/css">
+	
+		
+		.app{
+			height: 100vh;
+		    width: 100%;
+		    position: fixed;
+		    top: 0px;
+		    left: 0px;
+		    display: flex;
+		    align-items: top;
+		    padding: 20px;
+		    justify-content: center;
+		    background-image: url("https://nordicapis.com/wp-content/uploads/How-to-Build-an-API-Driven-Weather-App-1024x576.png");
+		    font-weight: bolder;
+		    font-size: 50px;
+		    color: #01005e;
+
+		}
+		.form{
+			height: 430px;
+		    width: 300px;
+		    box-shadow: 0px 0px 20px grey;
+		    border-radius: 30px;
+		    padding: 20px;
+		    padding-top: 50px;
+		    margin-top: 5%;
+		    margin-left: 40%;
+		    position: relative;
+		    box-align: center;
+/*		    filter: blur(0.5px);*/
+		}
+		button[type=button]
+		{
+			height: 40px;
+		    width: 90%;
+		    margin-left: 5%;
+		    border: none;
+		    outline: none;
+		    background-color: #94f6f2;
+		    border-radius: 20px;
+		    color: #ff0000;
+		    font-size: 20px;
+		    font-weight: bolder;
+		    margin-top: 40%;
+		}
+		.table{
+			margin-top: 15%;
+		}
+		
+	</style>
+</head>
+<body>
+	<fieldset>
+		<legend class="app">WEATHER APP</legend>
+		<br><br>
+		<form class="form">
+			<label style="font-size: 18px; font-weight: bold;">CITY NAME: </label>
+			<input type="text" placeholder="City Name" id="cityName">
+			<br><br>
+			<table class="table">
+				<tr>
+					<td style="font-weight: bold;">CITY NAME</td><br>
+					<td id="city">Pune</td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">TEMPERATURE</td>
+					<td id="temp">27°C</td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">HUMIDITY</td>
+					<td id="hum">20 %</td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">WIND</td>
+					<td id="wind">8 Km/hr</td>
+				</tr>
+			</table><br>
+			<button type="button" onclick="fetchData()">GET WEATHER</button>
+		</form>
+	</fieldset>
+   
+	<script type="text/javascript">
+		let apiKey = "76f67ef6b804fe1561d17a8be50fb73a"
+		let city = document.getElementById("city")
+		let temp = document.getElementById("temp")
+		let hum = document.getElementById("hum")
+		let wind = document.getElementById("wind")
+
+		function fetchData() {
+			let cityName = document.getElementById("cityName").value
+			if(cityName!="")
+				fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`)
+			.then(resp=>resp.json())
+			.then(data=>{
+				city.innerHTML = data.name
+				temp.innerHTML = ((data.main.temp)-273.15).toFixed(2)+" °C"
+				hum.innerHTML = data.main.humidity + " %"
+				wind.innerHTML = data.wind.speed + "Km/hr"
+			})
+			else
+			{
+				alert("Enter a city name")
+			}
+		}
+	</script>
+
+</body>
+</html>
